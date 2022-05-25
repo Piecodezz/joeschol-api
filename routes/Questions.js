@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Question = require("../models/Question")
+const Question = require("../models/Question");
 
 //CREATE LESSON
 router.post("/", async (req, res) => {
@@ -12,18 +12,17 @@ router.post("/", async (req, res) => {
   }
 });
 
-
 //UPDATE POST
 router.put("/:id", async (req, res) => {
   try {
-      const updatedQuestion = await Question.findByIdAndUpdate(
-          req.params.id,
-          {
-            $set: req.body,
-          },
-          { new: true }
-        ); 
-        res.status(200).json(updatedQuestion);
+    const updatedQuestion = await Question.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedQuestion);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -31,28 +30,28 @@ router.put("/:id", async (req, res) => {
 
 //DELETE POST
 router.delete("/:id", async (req, res) => {
-        const question = await Question.findById(req.params.id);
-      try {
-        await question.delete();
-        res.status(200).json("Subject has been deleted...");
-      } catch (err) {
-        res.status(500).json(err);
-      }
-})
-
-router.get("/", async (req, res) => {
-    const lesub = req.query.lesub
+  const question = await Question.findById(req.params.id);
   try {
-    let question;
-      if (lesub) {
-          question = await Question.find({lesub});
-      } else {
-          question = await Question.find();
-          res.status(200).json(question);
-      }
+    await question.delete();
+    res.status(200).json("Subject has been deleted...");
   } catch (err) {
     res.status(500).json(err);
   }
-})
+});
 
-module.exports = router
+router.get("/", async (req, res) => {
+  const lesub = req.query.lesub;
+  try {
+    let question;
+    if (lesub) {
+      question = await Question.find({ lesub });
+    } else {
+      question = await Question.find();
+      res.status(200).json(question);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+module.exports = router;
