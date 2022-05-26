@@ -45,6 +45,7 @@ router.get("/", async (req, res) => {
     let question;
     if (lesub) {
       question = await Question.find({ lesub });
+      res.status(200).json(question);
     } else {
       question = await Question.find();
       res.status(200).json(question);
